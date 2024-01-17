@@ -1,20 +1,30 @@
 /**
- * Interface d'un produit de l'API FakeStore
- * 
- * @interface produit
- * 
- * @param {number} id - Identifiant du produit
- * @param {string} title - Titre du produit
- * @param {number} price - Prix du produit
- * @param {string} category - Catégorie du produit
- * @param {string} description - Description du produit
- * @param {string} image - URL de l'image du produit
- * @param {object} rating - Note du produit et nombre de notes
- * 
- * @export
- * 
+ *  Type de données pour un produit
+ * @typedef {Object} Produit
+ * @property {number} id - Identifiant du produit
+ * @property {string} title - Titre du produit
+ * @property {number} price - Prix du produit
+ * @property {string} category - Catégorie du produit
+ * @property {string} description - Description du produit
+ * @property {string} image - Image du produit
+ * @property {Object} rating - Note du produit
+ *
+ * @example
+ * {
+    "id": 1,
+    "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+    "price": 109.95,
+    "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+    "category": "men's clothing",
+    "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+    "rating": {
+        "rate": 3.9,
+        "count": 120
+        }
+    }
+ *
  */
-interface Produit {
+type Produit = {
     id: number;
     title: string;
     price: number;
@@ -24,7 +34,7 @@ interface Produit {
     rating: {
         rate: number;
         count: number;
-    }
-}
+    };
+};
 
 export default Produit;

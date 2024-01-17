@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 import ProduitItem from "./ProduitItem";
 import Produit from "./Produit";
+import { Link } from "react-router-dom";
 
 const Produits = () => {
     const [produits, setProduits] = useState<Produit[]>([]);
@@ -28,7 +29,9 @@ const Produits = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-16">
                 {produits.map((produit) => (
-                    <ProduitItem key={produit.id} produit={produit} />
+                    <Link to={`/product/${produit.id}`}>
+                        <ProduitItem key={produit.id} produit={produit} />
+                    </Link>
                 ))}
             </div>
         </div>
