@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PrixBouton from "./PrixButton";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 
 const FormulaireRecherche = () => {
     const [totalProduits, setTotalProduits] = useState(10);
     const [prixMinimum, setPrixMinimum] = useState(0);
     const [prixMaximum, setprixMaximum] = useState(100);
 
+    // Retenir les valeurs.
+    const location = useLocation();
+    useEffect(() => {
+        const prixMax = new URLSearchParams(location.search).get("prixMaximum");
+        const prixMin = new URLSearchParams(location.search).get("prixMinimum");
+        const limit = new URLSearchParams(location.search).get("totalProduits");
+
+        if (prixMax) setPrixMinimum(Number(prixMin));
+        if (prixMin) setprixMaximum(Number(prixMax));
+        if (limit) setTotalProduits(Number(limit));
+    }, []);
+
+    // Gérer les erreurs avec toast.
     const handleTatalProduits = (newTotal: number) => {
         if (newTotal <= 0) {
             toast.error("Le nombre de produits ne peut pas être inférieur à 0");
@@ -39,15 +53,9 @@ const FormulaireRecherche = () => {
         }
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        window.location.href = `/produits?totalProduits=${totalProduits}&prixMinimum=${prixMinimum}&prixMaximum=${prixMaximum}`;
-    };
-
     return (
         <div className="flex items-center bg-gray-100 text-gray-900 p-4">
-            <form className="flex space-x-24 items-center justify-center flex-1" onSubmit={handleSubmit}>
+            <form className="flex space-x-24 items-center justify-center flex-1">
                 <div className="flex space-x-4 items-center">
                     <label className="font-lg font-bold" htmlFor="totalProduits">
                         Nombre de produits :{" "}

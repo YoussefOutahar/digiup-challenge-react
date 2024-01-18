@@ -6,30 +6,28 @@ import Produit from "./Produit";
 import { Link, useLocation } from "react-router-dom";
 
 const Produits = () => {
+    // Fonction de recherche
     const [produits, setProduits] = useState<Produit[]>([]);
     const location = useLocation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-
     const fetchProduits = async () => {
         setLoading(true);
-
         const prixMax = new URLSearchParams(location.search).get("prixMaximum");
         const prixMin = new URLSearchParams(location.search).get("prixMinimum");
         const limit = new URLSearchParams(location.search).get("totalProduits");
-
         try {
             const response = await axios.get<Produit[]>("https://fakestoreapi.com/products");
             setProduits(response.data);
-            if (prixMax) {
+
+            if (prixMax)
                 setProduits((produits) => produits.filter((produit) => produit.price <= Number(prixMax)));
-            }
-            if (prixMin) {
+
+            if (prixMin)
                 setProduits((produits) => produits.filter((produit) => produit.price >= Number(prixMin)));
-            }
-            if (limit) {
-                setProduits((produits) => produits.slice(0, Number(limit)));
-            }
+
+            if (limit) setProduits((produits) => produits.slice(0, Number(limit)));
+
             setLoading(false);
         } catch (error) {
             setError(`An error occurred`);
@@ -40,6 +38,7 @@ const Produits = () => {
         fetchProduits();
     }, []);
 
+    // Fonction de tri
     const [tri, setTri] = useState<string>();
     const handleTriChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setTri(event.target.value);
