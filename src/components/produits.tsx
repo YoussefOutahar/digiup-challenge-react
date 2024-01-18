@@ -21,7 +21,7 @@ const Produits = () => {
         if (limit) {
             fetchProduitsPromise = axios.get<Produit[]>("https://fakestoreapi.com/products?limit=" + limit);
         } else {
-            fetchProduitsPromise = axios.get<Produit[]>("https://faketoreapi.com/products?limit=12");
+            fetchProduitsPromise = axios.get<Produit[]>("https://fakestoreapi.com/products?limit=12");
         }
 
         toast.promise(fetchProduitsPromise, {
@@ -42,6 +42,7 @@ const Produits = () => {
             },
         });
     };
+
     useEffect(() => {
         fetchProduits();
     }, []);
@@ -83,13 +84,21 @@ const Produits = () => {
                     </div>
                 </div>
             ) : null}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-16">
-                {produits.map((produit) => (
-                    <Link to={`/product/${produit.id}`} key={produit.id}>
-                        <ProduitItem produit={produit} />
-                    </Link>
-                ))}
-            </div>
+            {produits.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-16">
+                    {produits.map((produit) => (
+                        <Link to={`/product/${produit.id}`} key={produit.id}>
+                            <ProduitItem produit={produit} />
+                        </Link>
+                    ))}
+                </div>
+            ) : (
+                <div className="flex justify-center items-center min-h-screen">
+                    <div className="text-red-500 text-center font-bold text-xl">
+                        <p>No products found</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
