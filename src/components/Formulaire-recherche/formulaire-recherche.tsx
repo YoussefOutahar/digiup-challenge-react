@@ -34,11 +34,13 @@ const FormulaireRecherche = () => {
                         value={prixMinimum}
                         onChange={handlePrixMin}
                         label="Prix Minimum"
+                        name="prixMinimum"
                     ></PrixBouton>
                     <PrixBouton
                         value={prixMaximum}
                         onChange={handlePrixMax}
                         label="Prix Maximum"
+                        name="prixMaximum"
                     ></PrixBouton>
                 </div>
                 <input

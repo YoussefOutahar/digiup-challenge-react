@@ -1,22 +1,46 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 
 import ProduitItem from "./ProduitItem";
 import Produit from "./Produit";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Produits = () => {
     const [produits, setProduits] = useState<Produit[]>([]);
+    const location = useLocation();
     const [error, setError] = useState<string | null>(null);
 
     const fetchProduits = async () => {
         try {
-            const fetchProduitsPromise = axios.get<Produit[]>("https://fakestoreapi.com/products?limit=12");
+            let fetchProduitsPromise: Promise<AxiosResponse<Produit[], any>>;
+
+            const prixMax = new URLSearchParams(location.search).get("prixMaximum");
+            const prixMin = new URLSearchParams(location.search).get("prixMinimum");
+            const limit = new URLSearchParams(location.search).get("totalProduits");
+
+            if (limit) {
+                fetchProduitsPromise = axios.get<Produit[]>(
+                    "https://fakestoreapi.com/products?limit=" + limit
+                );
+            } else {
+                fetchProduitsPromise = axios.get<Produit[]>("https://fakestoreapi.com/products?limit=12");
+            }
+
             toast.promise(fetchProduitsPromise, {
                 loading: "Loading products...",
                 success: (res) => {
                     setProduits(res.data);
+                    if (prixMax) {
+                        setProduits((produits) =>
+                            produits.filter((produit) => produit.price <= Number(prixMax))
+                        );
+                    }
+                    if (prixMin) {
+                        setProduits((produits) =>
+                            produits.filter((produit) => produit.price >= Number(prixMin))
+                        );
+                    }
                     return "Products loaded";
                 },
                 error: "Failed to load products",

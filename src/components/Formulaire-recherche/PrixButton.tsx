@@ -1,13 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
-
 const PrixButton = ({
     value,
     onChange,
     label,
+    name,
 }: {
     value: number;
     onChange: (newValue: number) => void;
     label: string;
+    name: string;
 }) => {
     return (
         <div className="flex space-x-1 items-center">
@@ -24,8 +24,8 @@ const PrixButton = ({
             <input
                 value={value}
                 id={label}
+                name={name}
                 className="h-8 rounded-md w-24 text-black text-xl font-semibold text-center"
-                name={label}
                 onChange={(e) => onChange(Number(e.target.value))}
                 type="number"
             />
