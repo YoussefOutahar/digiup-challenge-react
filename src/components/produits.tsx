@@ -23,13 +23,14 @@ const Produits = () => {
     useEffect(() => {
         if (tri === "1") {
             // [...produits] = copie du tableau produits
-            setProduits((produits) => [...produits].sort((a, b) => b.price - a.price));
-        } else if (tri === "2") {
             setProduits((produits) => [...produits].sort((a, b) => a.price - b.price));
+        } else if (tri === "2") {
+            setProduits((produits) => [...produits].sort((a, b) => b.price - a.price));
         } else if (tri === "Trier par :") {
             fetchProduits();
         }
     }, [tri]);
+
     return (
         <div>
             <div className="flex justify-end pr-12 pt-6">
