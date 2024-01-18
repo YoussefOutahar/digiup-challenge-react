@@ -4,8 +4,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const ProductPage = () => {
-    const [produit, setProduit] = useState<Produit>();
     const { id } = useParams();
+    const [produit, setProduit] = useState<Produit>();
 
     const fetchProduct = async () => {
         const response = await axios.get<Produit>("https://fakestoreapi.com/products/" + id);
