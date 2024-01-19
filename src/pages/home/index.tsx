@@ -8,8 +8,8 @@ const HomePage = () => {
 
     const handleFormulaireRecherche = (newTotal: number, newPrixMin: number, newPrixMax: number) => {
         // Gestion des erreurs.
-        if (newTotal < 0) {
-            toast.error("Le nombre de produits ne peut pas être inférieur à 0");
+        if (newTotal <= 0) {
+            toast.error("Le nombre de produits ne peut pas être inférieur ou égal à 0");
             return;
         }
         if (newPrixMin < 0) {
@@ -20,7 +20,7 @@ const HomePage = () => {
             toast.error("Le prix maximum ne peut pas être inférieur à 0");
             return;
         }
-        if (newPrixMin > newPrixMax) {
+        if (newPrixMin >= newPrixMax) {
             toast.error("Le prix minimum ne peut pas être supérieur au prix maximum");
             return;
         }
