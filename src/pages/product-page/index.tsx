@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import Produit from "../../components/Produit";
+import ProduitType from "../../components/ProduitType";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const ProductPage = () => {
     const { id } = useParams();
-    const [produit, setProduit] = useState<Produit>();
+    const [produit, setProduit] = useState<ProduitType>();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
 
     const fetchProduct = async () => {
         setLoading(true);
         try {
-            const response = await axios.get<Produit>("https://fakestoreapi.com/products/" + id);
+            const response = await axios.get<ProduitType>("https://fakestoreapi.com/products/" + id);
             setProduit(response.data);
             setLoading(false);
         } catch (error) {

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 import ProduitItem from "./ProduitItem";
-import Produit from "./Produit";
+import ProduitType from "./ProduitType";
 import { Link } from "react-router-dom";
 
 interface ProduitsProps {
@@ -13,13 +13,13 @@ interface ProduitsProps {
 }
 const Produits = ({ prixMaximum, prixMinimum, totalProduits, onChangeTrigger }: ProduitsProps) => {
     // Fonction de recherche
-    const [produits, setProduits] = useState<Produit[]>([]);
+    const [produits, setProduits] = useState<ProduitType[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const fetchProduits = async () => {
         setLoading(true);
         try {
-            const response = await axios.get<Produit[]>(
+            const response = await axios.get<ProduitType[]>(
                 "https://fakestoreapi.com/products?limit=" + totalProduits
             );
             setProduits(response.data);
