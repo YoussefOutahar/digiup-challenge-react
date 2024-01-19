@@ -7,16 +7,29 @@ const HomePage = () => {
     const [values, setValues] = useState({ total: 12, prixMin: 0, prixMax: 1000, onChangeTrigger: false });
 
     const handleFormulaireRecherche = (newTotal: number, newPrixMin: number, newPrixMax: number) => {
+        // Gestion des erreurs.
         if (newTotal < 0) {
             toast.error("Le nombre de produits ne peut pas être inférieur à 0");
-        } else {
-            setValues({
-                total: newTotal,
-                prixMin: newPrixMin,
-                prixMax: newPrixMax,
-                onChangeTrigger: !values.onChangeTrigger,
-            });
+            return;
         }
+        if (newPrixMin < 0) {
+            toast.error("Le prix minimum ne peut pas être inférieur à 0");
+            return;
+        }
+        if (newPrixMax < 0) {
+            toast.error("Le prix maximum ne peut pas être inférieur à 0");
+            return;
+        }
+        if (newPrixMin > newPrixMax) {
+            toast.error("Le prix minimum ne peut pas être supérieur au prix maximum");
+            return;
+        }
+        setValues({
+            total: newTotal,
+            prixMin: newPrixMin,
+            prixMax: newPrixMax,
+            onChangeTrigger: !values.onChangeTrigger,
+        });
     };
 
     return (

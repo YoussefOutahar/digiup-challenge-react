@@ -1,42 +1,20 @@
 import { useState } from "react";
 import PrixBouton from "./PrixButton";
-import toast from "react-hot-toast";
 
 interface FormulaireRechercheProps {
     hanndleSubmit: (newTotal: number, newPrixMin: number, newPrixMax: number) => void;
 }
 const FormulaireRecherche = ({ hanndleSubmit }: FormulaireRechercheProps) => {
-    const [totalProduits, setTotalProduits] = useState(10);
+    const [totalProduits, setTotalProduits] = useState(12);
     const [prixMinimum, setPrixMinimum] = useState(0);
     const [prixMaximum, setprixMaximum] = useState(1000);
 
-    // Gestion des erreurs dynamic.
-    const handleTatalProduits = (newTotal: number) => {
-        setTotalProduits(newTotal);
-    };
-
     const handlePrixMax = (newPrix: number) => {
-        if (newPrix <= 0) {
-            toast.error("Le prix maximum ne peut pas être inférieur à 0");
-            return;
-        }
-        if (newPrix < prixMinimum) {
-            toast.error("Le prix maximum ne peut pas être inférieur au prix minimum");
-        } else {
-            setprixMaximum(newPrix);
-        }
+        setprixMaximum(newPrix);
     };
 
     const handlePrixMin = (newPrix: number) => {
-        if (newPrix < 0) {
-            toast.error("Le prix minimum ne peut pas être inférieur à 0");
-            return;
-        }
-        if (newPrix > prixMaximum) {
-            toast.error("Le prix minimum ne peut pas être supérieur au prix maximum");
-        } else {
-            setPrixMinimum(newPrix);
-        }
+        setPrixMinimum(newPrix);
     };
 
     return (
@@ -57,7 +35,7 @@ const FormulaireRecherche = ({ hanndleSubmit }: FormulaireRechercheProps) => {
                         id="totalProduits"
                         className="h-8 rounded-md w-24 text-black text-xl font-semibold text-center"
                         name="totalProduits"
-                        onChange={(e) => handleTatalProduits(Number(e.target.value))}
+                        onChange={(e) => setTotalProduits(Number(e.target.value))}
                         type="number"
                     />
                 </div>

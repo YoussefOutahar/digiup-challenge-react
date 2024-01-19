@@ -19,16 +19,15 @@ const Produits = ({ prixMaximum, prixMinimum, totalProduits, onChangeTrigger }: 
     const fetchProduits = async () => {
         setLoading(true);
         try {
-            const response = await axios.get<Produit[]>("https://fakestoreapi.com/products");
+            const response = await axios.get<Produit[]>(
+                "https://fakestoreapi.com/products?limit=" + totalProduits
+            );
             setProduits(response.data);
-
             if (prixMaximum)
                 setProduits((produits) => produits.filter((produit) => produit.price <= Number(prixMaximum)));
 
             if (prixMinimum)
                 setProduits((produits) => produits.filter((produit) => produit.price >= Number(prixMinimum)));
-
-            if (totalProduits) setProduits((produits) => produits.slice(0, Number(totalProduits)));
 
             setLoading(false);
         } catch (error) {
