@@ -3,30 +3,31 @@ import { useState, useEffect } from "react";
 
 import ProduitItem from "./ProduitItem";
 import Produit from "./Produit";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Produits = () => {
+interface ProduitsProps {
+    totalProduits: number;
+    prixMinimum: number;
+    prixMaximum: number;
+}
+const Produits = ({ prixMaximum, prixMinimum, totalProduits }: ProduitsProps) => {
     // Fonction de recherche
     const [produits, setProduits] = useState<Produit[]>([]);
-    const location = useLocation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const fetchProduits = async () => {
         setLoading(true);
-        const prixMax = new URLSearchParams(location.search).get("prixMaximum");
-        const prixMin = new URLSearchParams(location.search).get("prixMinimum");
-        const limit = new URLSearchParams(location.search).get("totalProduits");
         try {
             const response = await axios.get<Produit[]>("https://fakestoreapi.com/products");
             setProduits(response.data);
 
-            if (prixMax)
-                setProduits((produits) => produits.filter((produit) => produit.price <= Number(prixMax)));
+            if (prixMaximum)
+                setProduits((produits) => produits.filter((produit) => produit.price <= Number(prixMaximum)));
 
-            if (prixMin)
-                setProduits((produits) => produits.filter((produit) => produit.price >= Number(prixMin)));
+            if (prixMinimum)
+                setProduits((produits) => produits.filter((produit) => produit.price >= Number(prixMinimum)));
 
-            if (limit) setProduits((produits) => produits.slice(0, Number(limit)));
+            if (totalProduits) setProduits((produits) => produits.slice(0, Number(totalProduits)));
 
             setLoading(false);
         } catch (error) {
@@ -36,7 +37,7 @@ const Produits = () => {
     };
     useEffect(() => {
         fetchProduits();
-    }, []);
+    }, [prixMaximum, prixMinimum, totalProduits]);
 
     // Fonction de tri
     const [tri, setTri] = useState<string>();
@@ -45,7 +46,6 @@ const Produits = () => {
     };
     useEffect(() => {
         if (tri === "1") {
-            // [...produits] = copie du tableau produits
             setProduits((produits) => [...produits].sort((a, b) => a.price - b.price));
         } else if (tri === "2") {
             setProduits((produits) => [...produits].sort((a, b) => b.price - a.price));
