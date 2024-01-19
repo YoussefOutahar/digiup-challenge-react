@@ -9,8 +9,9 @@ interface ProduitsProps {
     totalProduits: number;
     prixMinimum: number;
     prixMaximum: number;
+    onChangeTrigger: boolean;
 }
-const Produits = ({ prixMaximum, prixMinimum, totalProduits }: ProduitsProps) => {
+const Produits = ({ prixMaximum, prixMinimum, totalProduits, onChangeTrigger }: ProduitsProps) => {
     // Fonction de recherche
     const [produits, setProduits] = useState<Produit[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -37,7 +38,7 @@ const Produits = ({ prixMaximum, prixMinimum, totalProduits }: ProduitsProps) =>
     };
     useEffect(() => {
         fetchProduits();
-    }, [prixMaximum, prixMinimum, totalProduits]);
+    }, [prixMaximum, prixMinimum, totalProduits, onChangeTrigger]);
 
     // Fonction de tri
     const [tri, setTri] = useState<string>();
